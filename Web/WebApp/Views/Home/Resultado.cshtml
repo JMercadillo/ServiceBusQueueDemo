@@ -1,0 +1,19 @@
+﻿@model int
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">@ViewBag.Message</p>
+    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h4>Resultado</h4>
+        @Html.DisplayFor(m => m, new { @class = "form-control" })
+        <br />
+        @Html.ActionLink("Volver", "Calculadora", "Home", null, new { @class = "btn btn-primary" })
+    </div>
+</div>

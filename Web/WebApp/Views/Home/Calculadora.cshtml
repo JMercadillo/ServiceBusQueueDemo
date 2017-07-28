@@ -1,0 +1,41 @@
+﻿@model WebApp.Models.Calculo
+@{
+    ViewBag.Title = "Calculadora";
+}
+
+<div class="jumbotron">
+    <h1>ASP.NET</h1>
+    <p class="lead">@ViewBag.Message</p>
+    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h4>Calculadora</h4>
+        @using (Html.BeginForm("Resultado", "Home", FormMethod.Get))
+        {
+
+
+            @Html.TextBoxFor(m => m.Numero1, new { @class = "form-control", @required = "required" })
+            @Html.ValidationMessageFor(m => m.Numero1, "", new { @class = "text-danger" })
+
+            @Html.DropDownListFor(m => m.Operador,
+                                  new SelectListItem[] {
+                              new SelectListItem() { Text = " + ", Value = "0", Selected = true },
+                              new SelectListItem() { Text = " - ", Value = "1" },
+                              new SelectListItem() { Text = " x ", Value = "2" },
+                              new SelectListItem() { Text = " / ", Value = "3" }
+                                  },
+                                    new { @class = "form-control", @style = "min-width:65px;" })
+
+            @Html.ValidationMessageFor(m => m.Operador, "", new { @class = "text-danger" })
+
+            @Html.TextBoxFor(m => m.Numero2, new { @class = "form-control", @required = "required" })
+            @Html.ValidationMessageFor(m => m.Numero2, "", new { @class = "text-danger" })
+
+            <input type="submit" class="btn btn-primary" value="Calcular" />
+                        <input type="reset" class="btn btn-default" value="Restablecer" />
+
+        }
+    </div>
+</div>
