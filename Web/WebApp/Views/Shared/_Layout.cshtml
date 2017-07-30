@@ -84,7 +84,7 @@
         }
 
         span.noti {
-            color: #FF2323;
+            color: #ff6a00;
             margin: 15px;
             position: fixed;
             right: 100px;
@@ -110,20 +110,31 @@
                     $('span.count').html(data);
                 },
                 error: function () {
-                    $('span.count').html('¿?');
+                    $('span.count').html(' ');
                 }
             });
             // Click on notification icon for show notification
             $('span.noti').click(function (e) {
                 e.stopPropagation();
-                $('.noti-content').show();
-                var count = 0;
-                count = parseInt($('span.count').html()) || 0;
-                //only load notification if not already loaded
-                if (count > 0) {
-                    updateNotification();
+                if ($('.noti-content').is(':visible')) {
+
+                    $('.noti-content').hide();
+
+                } else {
+
+                    $('.noti-content').show();
+                    var count = 0;
+                    count = parseInt($('span.count').html()) || 0;
+                    //only load notification if not already loaded
+                    if (count > 0) {
+                        updateNotification();
+                    } else {
+                        $('#notiContent').empty();
+                        $('#notiContent').append($('<li>No hay notificaciones nuevas.</li>'));
+                    }
+                    $('span.count', this).html('0');
+                    
                 }
-                $('span.count', this).html('&nbsp;');
             })
             // hide notifications
             $('html').click(function () {
@@ -139,11 +150,12 @@
                     success: function (response) {
                         $('#notiContent').empty();
                         if (response.length == 0) {
-                            $('#notiContent').append($('<li>No hay notificaciones.</li>'));
+                            $('#notiContent').append($('<li>No hay notificaciones nuevas.</li>'));
+                        } else {
+                            $.each(response, function (index, value) {
+                                $('#notiContent').append($('<li><b>' + value.Titulo + '</b> <p>' + value.Subtitulo + '</p><p>' + value.Cuerpo + '</p></li>'));
+                            });
                         }
-                        $.each(response, function (index, value) {
-                            $('#notiContent').append($('<li><b>' + value.Titulo + '</b> <p>' + value.Subtitulo + '</p><p>' + value.Cuerpo + '</p></li>'));
-                        });
                     },
                     error: function (error) {
                         console.log(error);

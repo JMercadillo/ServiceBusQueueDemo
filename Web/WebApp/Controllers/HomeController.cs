@@ -31,9 +31,15 @@ namespace WebApp.Controllers
                 var user = Usuarios.Where(x => x.Correo == usuario.Correo && x.Contrasenia == usuario.Contrasenia).First();
                 Session["Usuario"] = user as Usuario;
 
+                NotificationComponent NC = new NotificationComponent();
+                Session["LastUpdated"] = DateTime.Now;
+                NC.RegisterNotification(DateTime.Now, usuario);
+
                 //Registrando al cliente para recibir notificaciones
                 NotificationHub NH = new NotificationHub();
                 NH.RegisterClient(user);
+
+                
 
                 return RedirectToAction("Calculadora");
             }
@@ -71,7 +77,9 @@ namespace WebApp.Controllers
                 result = calHelper.GetOperar();
 
             if (result > 0)
-                return View("En breve caerá una notificación indicandote el resultado de tu operación.");
+            {
+                return View(model: "En breve caerá una notificación indicandote el resultado de tu operación.");
+            }
             else
                 return View();
         }

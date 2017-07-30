@@ -16,7 +16,7 @@ namespace WebApi.Models
         public string Cuerpo { get; set; }
         public DateTime AgregadoEn { get; set; }
 
-        public int EnviarNotificacion(Notificacion notificacion, Usuario usuario)
+        public bool EnviarNotificacion(Notificacion notificacion, Usuario usuario)
         {
             try
             {
@@ -35,11 +35,11 @@ namespace WebApi.Models
                     context.SaveChanges();
                 }
 
-                return 1;
+                return true;
             }
             catch (Exception e)
             {
-                return 0;
+                return false;
             }
         }
     }

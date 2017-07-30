@@ -15,9 +15,7 @@ namespace WebApp
     public class NotificationComponent
     {
 
-        Usuario usuario = HttpContext.Current.Session["Usuario"] as Usuario;
-
-        public void RegisterNotification(DateTime currentTime)
+        public void RegisterNotification(DateTime currentTime, Usuario usuario)
         {
             var ConnString = ConfigurationManager.ConnectionStrings["NotificationsConnectionString"].ConnectionString;
             var query = @"SELECT [NotificacionId], [Usuario], [Titulo], [Cuerpo] FROM [dbo].[Notificaciones]"+
@@ -56,11 +54,15 @@ namespace WebApp
                 //notificando a los clientes
                 //notificationHub.Clients.All.notify("added");
 
-                //notificando al cliente
-                NotificationHub NH = new NotificationHub();
-                NH.AddNotification(usuario);
+                var usuario = HttpContext.Current.Session["Usuario"] as Usuario;
+                if (usuario != null)
+                {
+                    //notificando al cliente
+                    NotificationHub NH = new NotificationHub();
+                    NH.AddNotification(usuario);
 
-                RegisterNotification(DateTime.Now);
+                    RegisterNotification(DateTime.Now, usuario);
+                }
             }
         }
     }

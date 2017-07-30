@@ -10,7 +10,7 @@ namespace WebApi.Controllers
 {
     public class NotificacionesController : ApiController
     {
-        public List<Notificaciones> Post(bool leer, int usuarioId/*DateTime afterDate*/)
+        public List<Notificaciones> Get(bool leer, int usuarioId/*DateTime afterDate*/)
         {
             var notificaciones = new List<Notificaciones>();
             using (DataContext.NotificationsDemoEntities model = new DataContext.NotificationsDemoEntities())

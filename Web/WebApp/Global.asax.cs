@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WebApp.Models;
 
 namespace WebApp
 {
@@ -28,8 +29,12 @@ namespace WebApp
             NotificationComponent NC = new NotificationComponent();
             var currentTime = DateTime.Now;
 
-            HttpContext.Current.Session["LastUpdated"] = currentTime;
-            NC.RegisterNotification(currentTime);
+            if (Session["Usuario"] != null)
+            {
+                var usuario = Session["Usuario"] as Usuario;
+                HttpContext.Current.Session["LastUpdated"] = currentTime;
+                NC.RegisterNotification(currentTime, usuario);
+            }
         }
 
         protected void Application_End()
