@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebApp.Helper;
 using WebApp.Models;
+using WebApp.Notifications;
 
 namespace WebApp.Controllers
 {
@@ -51,7 +52,6 @@ namespace WebApp.Controllers
             return View();
         }
 
-        [AsyncTimeout(60)]
         public ActionResult Resultado(Calculo calculo)
         {
             int result;
@@ -75,6 +75,23 @@ namespace WebApp.Controllers
             }
 
             return View(result);
+        }
+
+        public int GetNotificationsNotRead()
+        {
+            NotificationComponent NC = new NotificationComponent();
+            return NC.GetNotificacionsNotRead();
+        }
+
+        public JsonResult GetNotifications()
+        {
+            //var notificationRegisterTime = Session["LastUpdated"] != null ? Convert.ToDateTime(Session["LastUpdated"]) : DateTime.Now;
+
+            NotificationComponent NC = new NotificationComponent();
+            var list = NC.GetNotifications(true/*notificationRegisterTime*/);
+            Session["LastUpdated"] = DateTime.Now;
+            return new JsonResult { Data = list, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
         }
 
         public ActionResult Contact()
