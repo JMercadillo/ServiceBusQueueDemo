@@ -172,6 +172,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\CalculadoraHelper.cs" />
+    <Compile Include="Helper\NotificacionHelper.cs" />
     <Compile Include="Models\Calculo.cs" />
     <Compile Include="Notifications\Notificacion.cs" />
     <Compile Include="NotificationHub.cs" />

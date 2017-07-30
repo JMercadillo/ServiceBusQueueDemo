@@ -10,13 +10,13 @@ namespace WebApi.Controllers
 {
     public class NotificacionesController : ApiController
     {
-        public List<Notificaciones> Get(bool leer/*DateTime afterDate*/)
+        public List<Notificaciones> Post(bool leer, int usuarioId/*DateTime afterDate*/)
         {
             var notificaciones = new List<Notificaciones>();
             using (DataContext.NotificationsDemoEntities model = new DataContext.NotificationsDemoEntities())
             {
                 notificaciones = model.Notificaciones
-                    .Where(x => x.Leido == false)
+                    .Where(x => x.Leido == false && x.Usuario == usuarioId)
                     .OrderByDescending(x => x.AgregadoEn)
                     .ToList();
                 if (leer)

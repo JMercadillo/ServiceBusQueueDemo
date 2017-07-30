@@ -7,21 +7,28 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
+using WebApp.Models;
 using WebApp.Notifications;
 
 namespace WebApp
 {
     public class NotificationComponent
     {
+
+        Usuario usuario = HttpContext.Current.Session["Usuario"] as Usuario;
+
         public void RegisterNotification(DateTime currentTime)
         {
             var ConnString = ConfigurationManager.ConnectionStrings["NotificationsConnectionString"].ConnectionString;
-            var query = @"SELECT [NotificacionId], [Usuario], [Titulo], [Cuerpo] FROM [dbo].[Notificaciones] WHERE [AgregadoEn] > @AgregadoEn";
+            var query = @"SELECT [NotificacionId], [Usuario], [Titulo], [Cuerpo] FROM [dbo].[Notificaciones]"+
+                " WHERE [Usuario] = @UsuarioId AND [AgregadoEn] > @AgregadoEn";
 
             using (SqlConnection con = new SqlConnection(ConnString))
             {
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@AgregadoEn", currentTime);
+                cmd.Parameters.AddWithValue("@UsuarioId", usuario.Id);
+
                 if (con.State != System.Data.ConnectionState.Open)
                 {
                     con.Open();
@@ -45,56 +52,16 @@ namespace WebApp
                 SqlDependency sqlDep = sender as SqlDependency;
                 sqlDep.OnChange -= SqlDep_OnChange;
 
-                var notificationHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-
+                //var notificationHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
                 //notificando a los clientes
-                notificationHub.Clients.All.notify("added");
+                //notificationHub.Clients.All.notify("added");
 
+                //notificando al cliente
+                NotificationHub NH = new NotificationHub();
+                NH.AddNotification(usuario);
 
                 RegisterNotification(DateTime.Now);
             }
-        }
-
-        public List<Notificacion> GetNotifications(bool Leer/*DateTime afterDate*/)
-        {
-            try
-            {
-                using (HttpClient client = new HttpClient())
-                {
-                    //HTTP POST
-                    var Uri = "http://localhost:57607/api/Notificaciones";
-                    
-                    //var _afterDate = HttpUtility.UrlEncode(afterDate.ToString("yyyy/MM/dd hh:mm:ss"));
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    HttpResponseMessage response = client.GetAsync(Uri+$"?Leer={Leer}"/*+$"?afterDate={_afterDate}"*/).Result;
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var result = response.Content.ReadAsAsync<List<Notificacion>>().Result;
-                        return result;
-                    }
-                    else
-                    {
-                        return new List<Notificacion>();
-                    }
-                }
-            }
-            catch
-            {
-                return new List<Notificacion>();
-            }
-        }
-
-        public int GetNotificacionsNotRead()
-        {
-            var list = GetNotifications(false/*DateTime afterDate*/);
-            var notificationHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            var count = 0;
-            foreach (var notifiacion in list)
-            {
-                count++;
-            }
-
-            return count;
         }
     }
 }

@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using WebApp.Helper;
 using WebApp.Models;
-using WebApp.Notifications;
 
 namespace WebApp.Controllers
 {
@@ -15,7 +14,6 @@ namespace WebApp.Controllers
         {
               new Usuario(){ Id=0, Nombre = "Josué Ulises", Apellido = "Mercadillo Flores", Correo = "jmercadillo@cgclatam.com", Contrasenia = "abc123." },
               new Usuario(){ Id=1, Nombre = "Nataly Paola", Apellido = "Domínguez Landaverde", Correo = "metal_uli@hotmail.com", Contrasenia = "mercally05" },
-              new Usuario(){ Id=2, Nombre = "Roberto Esaú", Apellido = "Perdomo Aragón", Correo = "josuemercally@gmail.com", Contrasenia = "mercally14" }
         };
 
         public ActionResult Index()
@@ -32,6 +30,10 @@ namespace WebApp.Controllers
             {
                 var user = Usuarios.Where(x => x.Correo == usuario.Correo && x.Contrasenia == usuario.Contrasenia).First();
                 Session["Usuario"] = user as Usuario;
+
+                //Registrando al cliente para recibir notificaciones
+                NotificationHub NH = new NotificationHub();
+                NH.RegisterClient(user);
 
                 return RedirectToAction("Calculadora");
             }
@@ -54,44 +56,44 @@ namespace WebApp.Controllers
 
         public ActionResult Resultado(Calculo calculo)
         {
-            int result;
-            if (calculo.Operador == 3 && calculo.Numero2 == 0)
-            {
-                ModelState.AddModelError("Numero2", "No se puede dividir un número entre 0.");
-                return View("Calculadora");
-            }
+            int result = 0;
+
+            var calHelper = new CalculadoraHelper();
+
+            var user = Session["Usuario"] as Usuario;
+            ViewBag.Message = $"{user.Nombre} tu resultado está listo.";
+
+            calculo.Usuario = user;
+            //Envia el mensaje a la cola
+            result = calHelper.EnviarOperar(calculo);
+
+            if (result > 0)
+                result = calHelper.GetOperar();
+
+            if (result > 0)
+                return View("En breve caerá una notificación indicandote el resultado de tu operación.");
             else
-            {
-                var calHelper = new CalculadoraHelper();
-
-                var user = Session["Usuario"] as Usuario;
-                ViewBag.Message = $"{user.Nombre} tu resultado está listo.";
-
-                result = calHelper.Operar(calculo);
-
-                //Envia el mensaje a la cola
-                calculo.Usuario = user;
-                calHelper.EnviarOperar(calculo);
-            }
-
-            return View(result);
+                return View();
         }
 
         public int GetNotificationsNotRead()
         {
-            NotificationComponent NC = new NotificationComponent();
-            return NC.GetNotificacionsNotRead();
+            var usuario = Session["Usuario"] as Usuario;
+            NotificacionHelper NH = new NotificacionHelper();
+            return NH.GetNotificacionsNotRead(usuario.Id);
         }
 
         public JsonResult GetNotifications()
         {
             //var notificationRegisterTime = Session["LastUpdated"] != null ? Convert.ToDateTime(Session["LastUpdated"]) : DateTime.Now;
+            var usuario = Session["Usuario"] as Usuario;
 
-            NotificationComponent NC = new NotificationComponent();
-            var list = NC.GetNotifications(true/*notificationRegisterTime*/);
+            NotificacionHelper NH = new NotificacionHelper();
+            var list = NH.GetNotifications(true, usuario.Id/*notificationRegisterTime*/);
+
             Session["LastUpdated"] = DateTime.Now;
-            return new JsonResult { Data = list, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
+            return new JsonResult { Data = list, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         public ActionResult Contact()

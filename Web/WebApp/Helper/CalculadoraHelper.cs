@@ -15,14 +15,14 @@ namespace WebApp.Helper
     {
         string Uri = "http://localhost:57607/api/Calculadora";
         
-        public int Operar(Calculo calculo)
+        public int GetOperar()
         {
             try
             {
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.Timeout = TimeSpan.FromSeconds(60);
-                HttpResponseMessage response = client.GetAsync(Uri + $"?Numero1={calculo.Numero1}&Operador={calculo.Operador}&Numero2={calculo.Numero2}").Result;
+                HttpResponseMessage response = client.GetAsync(Uri).Result;
                 if (response.IsSuccessStatusCode)
                 {
                     var result = response.Content.ReadAsAsync<int>().Result;
@@ -39,7 +39,7 @@ namespace WebApp.Helper
         /*
          * Enviando mensajes a la cola
          */
-        public string EnviarOperar(Calculo obj)
+        public int EnviarOperar(Calculo obj)
         {
             try
             {
@@ -50,11 +50,11 @@ namespace WebApp.Helper
                 BrokeredMessage message = new BrokeredMessage(obj);
                 queueClient.Send(message);
 
-                return "Se envió el mensaje";
+                return 1;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                return 0;
             }
         }
     }

@@ -27,11 +27,12 @@ namespace WebApp
         {
             NotificationComponent NC = new NotificationComponent();
             var currentTime = DateTime.Now;
+
             HttpContext.Current.Session["LastUpdated"] = currentTime;
             NC.RegisterNotification(currentTime);
         }
 
-        protected void Application_Ennd()
+        protected void Application_End()
         {
             SqlDependency.Stop(conString);
         }
