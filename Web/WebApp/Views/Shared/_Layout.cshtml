@@ -180,6 +180,17 @@
                     updateNotificationCount();
                 }
             }
+            //Registrar clientes en el servidor
+            $.ajax({
+                type: 'GET',
+                url: '/Home/GETUSERID',
+                success: function (ID) {
+                    notificationHub.server.registerClient(ID);
+                },
+                error: function () {
+                    console.log('Error get user Id');
+                }
+            });
         })
     </script>
 </body>

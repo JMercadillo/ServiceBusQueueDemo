@@ -5,8 +5,9 @@ using System.Web;
 using Microsoft.AspNet.SignalR;
 using WebApp.Models;
 using WebApp.Notifications;
+using Microsoft.AspNet.SignalR.Hubs;
 
-namespace WebApp
+namespace WebApp.Notifications
 {
     public class NotificationHub : Hub
     {
@@ -15,19 +16,20 @@ namespace WebApp
         //    Clients.All.hello();
         //}
 
-        private static Dictionary<Usuario, dynamic> connectedClients = new Dictionary<Usuario, dynamic>();
+        private static Dictionary<int, dynamic> connectedClients = new Dictionary<int, dynamic>();
 
-        public void RegisterClient(Usuario User)
+        
+        public void RegisterClient(int UserId)
         {
             lock (connectedClients)
             {
-                if (connectedClients.ContainsKey(User))
+                if (connectedClients.ContainsKey(UserId))
                 {
-                    connectedClients[User] = Clients.Caller();
+                    connectedClients[UserId] = Clients.Caller;
                 }
                 else
                 {
-                    connectedClients.Add(User, Clients.Caller);
+                    connectedClients.Add(UserId, Clients.Caller);
                 }
             }
         }
@@ -36,9 +38,9 @@ namespace WebApp
         {
             lock (connectedClients)
             {
-                if (connectedClients.ContainsKey(usuario))
+                if (connectedClients.ContainsKey(usuario.Id))
                 {
-                    dynamic client = connectedClients[usuario];
+                    var client = connectedClients[usuario.Id]; 
                     client.notify("added"); // Indicandole al usuario que tiene una notificación
                 }
             }

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebApp.Helper;
 using WebApp.Models;
+using WebApp.Notifications;
 
 namespace WebApp.Controllers
 {
@@ -23,6 +24,11 @@ namespace WebApp.Controllers
             return View();
         }
 
+        public int GETUSERID()
+        {
+            return ((Usuario)Session["Usuario"]).Id;
+        }
+
         [HttpPost]
         public ActionResult Index(Usuario usuario)
         {
@@ -34,10 +40,6 @@ namespace WebApp.Controllers
                 NotificationComponent NC = new NotificationComponent();
                 Session["LastUpdated"] = DateTime.Now;
                 NC.RegisterNotification(DateTime.Now, user);
-
-                //Registrando al cliente para recibir notificaciones
-                NotificationHub NH = new NotificationHub();
-                NH.RegisterClient(user);
 
                 return RedirectToAction("Calculadora");
             }
@@ -86,6 +88,7 @@ namespace WebApp.Controllers
         {
             var usuario = Session["Usuario"] as Usuario;
             NotificacionHelper NH = new NotificacionHelper();
+
             return NH.GetNotificacionsNotRead(usuario.Id);
         }
 

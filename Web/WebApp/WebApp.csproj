@@ -175,8 +175,8 @@
     <Compile Include="Helper\NotificacionHelper.cs" />
     <Compile Include="Models\Calculo.cs" />
     <Compile Include="Notifications\Notificacion.cs" />
-    <Compile Include="NotificationHub.cs" />
-    <Compile Include="NotificationComponent.cs" />
+    <Compile Include="Notifications\NotificationHub.cs" />
+    <Compile Include="Notifications\NotificationComponent.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
