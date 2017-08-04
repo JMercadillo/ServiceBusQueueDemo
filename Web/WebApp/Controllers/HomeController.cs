@@ -12,8 +12,8 @@ namespace WebApp.Controllers
     {
         protected readonly List<Usuario> Usuarios = new List<Usuario>()
         {
-              new Usuario(){ Id=0, Nombre = "Josué Ulises", Apellido = "Mercadillo Flores", Correo = "jmercadillo@cgclatam.com", Contrasenia = "abc123." },
-              new Usuario(){ Id=1, Nombre = "Nataly Paola", Apellido = "Domínguez Landaverde", Correo = "metal_uli@hotmail.com", Contrasenia = "mercally05" },
+              new Usuario(){ Id=150, Nombre = "Josué Ulises", Apellido = "Mercadillo Flores", Correo = "jmercadillo@cgclatam.com", Contrasenia = "abc123." },
+              new Usuario(){ Id=250, Nombre = "Nataly Paola", Apellido = "Domínguez Landaverde", Correo = "metal_uli@hotmail.com", Contrasenia = "mercally05" },
         };
 
         public ActionResult Index()
@@ -33,13 +33,11 @@ namespace WebApp.Controllers
 
                 NotificationComponent NC = new NotificationComponent();
                 Session["LastUpdated"] = DateTime.Now;
-                NC.RegisterNotification(DateTime.Now, usuario);
+                NC.RegisterNotification(DateTime.Now, user);
 
                 //Registrando al cliente para recibir notificaciones
                 NotificationHub NH = new NotificationHub();
                 NH.RegisterClient(user);
-
-                
 
                 return RedirectToAction("Calculadora");
             }

@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using WebApi.Models;
@@ -19,48 +20,61 @@ namespace WebApi.Controllers
 
         public int GET()
         {            
-            Calculo calculo = null;
-            Resultado resultado = null;
-
+            
             //Inicializando el cliente de colas
             QueueClient queueClient = QueueClient.CreateFromConnectionString(ConnectionString, QueueName);
+
+            Thread obj = new Thread(delegate ()
+            {
+                ObtenerMensaje(queueClient);
+            });
+            obj.IsBackground = true;
+            obj.Start();
+
+            return 1;
+        }
+
+        private void ObtenerMensaje(QueueClient queueClient)
+        {
+            Calculo calculo = null;
+            Resultado resultado = null;
 
             try
             {
                 //Obteniendo el mensaje
                 queueClient.OnMessage(message =>
                 {
-                    //var message = queueClient.Receive();
+                    //var message = queueClient.Peek();
 
-                    if (message != null)
-                    {
-                        calculo = message.GetBody<Calculo>(); // Obteniendo el cuerpo del mensaje
+                if (message != null)
+                {
+                    calculo = message.GetBody<Calculo>(); // Obteniendo el cuerpo del mensaje
 
-                        resultado = Calcular(calculo); // Realizando la operación necesaria
+                    resultado = Calcular(calculo); // Realizando la operación necesaria
 
-                        Notificacion notificacion = new Notificacion(); // Construyendo la notificación
-                        notificacion.Usuario = calculo.Usuario.Id;
-                        notificacion.Titulo = $"Resultado de operación {resultado.nombreOperador}.";
-                        notificacion.Subtitulo = $"{calculo.Numero1} {resultado.operador} {calculo.Numero2} = ";
-                        notificacion.Cuerpo = $"Su resultado es: <b>{resultado.resultado}</b>.";
+                    Notificacion notificacion = new Notificacion(); // Construyendo la notificación
+                    notificacion.Usuario = calculo.Usuario.Id;
+                    notificacion.Titulo = $"Resultado de operación {resultado.nombreOperador}.";
+                    notificacion.Subtitulo = $"{calculo.Numero1} {resultado.operador} {calculo.Numero2} = ";
+                    notificacion.Cuerpo = $"Su resultado es: <b>{resultado.resultado}</b>.";
 
-                        notificacion.EnviarNotificacion(notificacion, calculo.Usuario); //Enviando la notificación
+                    notificacion.EnviarNotificacion(notificacion, calculo.Usuario); //Enviando la notificación
 
-                        CorreoController correo = new CorreoController();
-                        correo.EnviarCorreo(calculo.Usuario.Correo, /* Enviando el correo */
-                                        "Consulting Group Corporación Latinoaméricana",
-                                        "Resultado de operación",
-                                        "<hr>" +
-                                        $"<h3>{calculo.Usuario.Apellido} el resultado de su operación ({resultado.nombreOperador}) es:</h3> <h2>{calculo.Numero1} {resultado.operador} {calculo.Numero2} = <b>{resultado.resultado}</b></h2>" +
-                                        "<hr>"
-                                        ).GetAwaiter().GetResult();
+                    CorreoController correo = new CorreoController();
+                    correo.EnviarCorreo(calculo.Usuario.Correo, /* Enviando el correo */
+                                    "Consulting Group Corporación Latinoaméricana",
+                                    "Resultado de operación",
+                                    "<hr>" +
+                                    $"<h3>{calculo.Usuario.Apellido} el resultado de su operación ({resultado.nombreOperador}) es:</h3> <h2>{calculo.Numero1} {resultado.operador} {calculo.Numero2} = <b>{resultado.resultado}</b></h2>" +
+                                    "<hr>"
+                                    ).GetAwaiter().GetResult();
 
-                        message.Complete();
-                    }
-                    else
-                    {
-                        queueClient.Close();
-                    }
+                    //message.Complete();
+                }
+                else
+                {
+                    queueClient.Close();
+                }
                 }, new OnMessageOptions
                 {
                     AutoComplete = true,
@@ -69,14 +83,12 @@ namespace WebApi.Controllers
             }
             catch (ObjectDisposedException ex) // Excepcion cuando no se pueda deseliarizar el mensaje
             {
-                return -1;
+
             }
             catch (Exception ex) // Excepción cuando se desconozca 
             {
-                return 0;
+
             }
-            
-            return 1;
         }
 
         private class Resultado
