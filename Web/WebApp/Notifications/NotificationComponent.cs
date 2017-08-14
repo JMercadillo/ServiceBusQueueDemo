@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 using WebApp.Controllers;
+using WebApp.Helper;
 using WebApp.Models;
 using WebApp.Notifications;
 
@@ -27,13 +28,13 @@ namespace WebApp.Notifications
 
                 var ConnString = ConfigurationManager.ConnectionStrings["NotificationsConnectionString"].ConnectionString;
                 var query = @"SELECT [NotificacionId], [Usuario], [Titulo], [Cuerpo] FROM [dbo].[Notificaciones]" +
-                    " WHERE [Usuario] = @UsuarioId AND [AgregadoEn] > @AgregadoEn";
+                    " WHERE [UsuarioId] = @UsuarioId AND [AgregadoEn] > @AgregadoEn";
 
                 using (SqlConnection con = new SqlConnection(ConnString))
                 {
                     SqlCommand cmd = new SqlCommand(query, con);
                     cmd.Parameters.AddWithValue("@AgregadoEn", currentTime);
-                    cmd.Parameters.AddWithValue("@UsuarioId", usuario.Id);
+                    cmd.Parameters.AddWithValue("@UsuarioId", usuario.UsuarioId);
 
                     if (con.State != System.Data.ConnectionState.Open)
                     {
@@ -49,6 +50,33 @@ namespace WebApp.Notifications
 
                     }
                 }
+                var SH = new SuscripcionesHelper();
+                var Subs = SH.Get(); // Obtiene la suscripción actual de dependencia con la base de datos
+                var RH = new RegistroNotificacionesHelper();
+                RH.Post( // Agrega el registro para controlar las suscripciones
+                    new RegistroNotificaciones()
+                    {
+                        RegistroNotificacionId = 0,
+                        SuscripcionId = Subs,
+                        UsuarioId = USER.UsuarioId
+                    }
+                );
+            }
+        }
+
+        /// <summary>
+        /// Quita la dependencia de notifiaciones hacia la base de datos
+        /// </summary>
+        /// <param name="Usuario">Identificador del usuario</param>
+        public void RemoveNotification(Usuario Usuario)
+        {
+            var RH = new RegistroNotificacionesHelper();
+            var RegistroNoti = RH.Get(Usuario.UsuarioId);
+            if (RegistroNoti != null)
+            {
+                var SH = new SuscripcionesHelper();
+                SH.Delete(RegistroNoti.SuscripcionId); // Mata la suscripción de dependecia con la base de datos
+                RH.Delete(Usuario.UsuarioId);
             }
         }
 
@@ -59,11 +87,9 @@ namespace WebApp.Notifications
                 SqlDependency sqlDep = sender as SqlDependency;
                 sqlDep.OnChange -= SqlDep_OnChange;
 
-                //var notificationHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-                ////notificando a los clientes
-                //notificationHub.Clients.All.notify("added");
+                var RH = new RegistroNotificacionesHelper(); // Eliminando el registro
+                RH.Delete(USER.UsuarioId);
 
-                //var usuario = new HomeController().GetUser();
                 if (USER != null)
                 {
                     //notificando al cliente

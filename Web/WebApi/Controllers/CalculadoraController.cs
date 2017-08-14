@@ -18,18 +18,12 @@ namespace WebApi.Controllers
         String ConnectionString = ConfigurationManager.AppSettings["SBConnectionString"].ToString();
         String QueueName = ConfigurationManager.AppSettings["QueueName"].ToString();
 
-        public int GET()
+        public int Get()
         {            
             
             //Inicializando el cliente de colas
             QueueClient queueClient = QueueClient.CreateFromConnectionString(ConnectionString, QueueName);
-
-            Thread obj = new Thread(delegate ()
-            {
-                ObtenerMensaje(queueClient);
-            });
-            obj.IsBackground = true;
-            obj.Start();
+            ObtenerMensaje(queueClient);
 
             return 1;
         }
@@ -51,21 +45,22 @@ namespace WebApi.Controllers
                     calculo = message.GetBody<Calculo>(); // Obteniendo el cuerpo del mensaje
 
                     resultado = Calcular(calculo); // Realizando la operación necesaria
-
-                    Notificacion notificacion = new Notificacion(); // Construyendo la notificación
-                    notificacion.Usuario = calculo.Usuario.Id;
-                    notificacion.Titulo = $"Resultado de operación {resultado.nombreOperador}.";
-                    notificacion.Subtitulo = $"{calculo.Numero1} {resultado.operador} {calculo.Numero2} = ";
-                    notificacion.Cuerpo = $"Su resultado es: <b>{resultado.resultado}</b>.";
-
-                    notificacion.EnviarNotificacion(notificacion, calculo.Usuario); //Enviando la notificación
+                        // Construyendo la notificación
+                        Notificaciones notificacion = new Notificaciones(0,
+                            calculo.Usuario.UsuarioId,
+                            $"Resultado de operación {resultado.nombreOperador}.",
+                            $"Su resultado es: <b>{resultado.resultado}</b>.",
+                            DateTime.Now,
+                            false
+                            );
+                    notificacion.AgregarNotificacion(notificacion); //Enviando la notificación
 
                     CorreoController correo = new CorreoController();
                     correo.EnviarCorreo(calculo.Usuario.Correo, /* Enviando el correo */
                                     "Consulting Group Corporación Latinoaméricana",
                                     "Resultado de operación",
                                     "<hr>" +
-                                    $"<h3>{calculo.Usuario.Apellido} el resultado de su operación ({resultado.nombreOperador}) es:</h3> <h2>{calculo.Numero1} {resultado.operador} {calculo.Numero2} = <b>{resultado.resultado}</b></h2>" +
+                                    $"<h3>{calculo.Usuario.Nombre} el resultado de su operación ({resultado.nombreOperador}) es:</h3> <h2>{calculo.Numero1} {resultado.operador} {calculo.Numero2} = <b>{resultado.resultado}</b></h2>" +
                                     "<hr>"
                                     ).GetAwaiter().GetResult();
 

@@ -10,14 +10,14 @@ namespace WebApp.Models
     public class Usuario
     {
         [DataMember]
-        public int Id { get; set; }
+        public int UsuarioId { get; set; }
+        [DataMember]
+        public int RolId { get; set; }
         [DataMember]
         public string Nombre { get; set; }
         [DataMember]
-        public string Apellido { get; set; }
-        [DataMember]
         public string Correo { get; set; }
         [DataMember]
-        public string Contrasenia { get; set; }
+        public DateTime CreadoEn { get; set; }
     }
 }

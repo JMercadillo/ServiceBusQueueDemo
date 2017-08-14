@@ -4,32 +4,31 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using WebApi.DataContext;
 using WebApi.Models;
 namespace WebApi.Controllers
 {
     public class NotificacionesController : ApiController
     {
-        public List<Notificaciones> Get(bool leer, int usuarioId/*DateTime afterDate*/)
+        [HttpGet]
+        [Route("api/Notificaciones/GetAll/{id}")]
+        public List<Notificaciones> GetAll(int id)
         {
-            var notificaciones = new List<Notificaciones>();
-            using (DataContext.NotificationsDemoEntities model = new DataContext.NotificationsDemoEntities())
-            {
-                notificaciones = model.Notificaciones
-                    .Where(x => x.Leido == false && x.Usuario == usuarioId)
-                    .OrderByDescending(x => x.AgregadoEn)
-                    .ToList();
-                if (leer)
-                {
-                    foreach (var notificacion in notificaciones)
-                    {
-                        notificacion.Leido = true;
-                    }
-                    model.SaveChanges();
-                }
-            }
+            return new Notificaciones().TodasNotificacionesPorUsuarioId(id);
+        }
 
-            return notificaciones;
+        public int Get(int id)
+        {
+            return new Notificaciones().CantidadNotificacionesPorUsuarioId(id);
+        }
+
+        public bool Post(Notificaciones Notificacion)
+        {
+            return new Notificaciones().AgregarNotificacion(Notificacion);
+        }
+
+        public bool Delete(int id)
+        {
+            return new Notificaciones().EliminarNotificacion(id);
         }
     }
 }

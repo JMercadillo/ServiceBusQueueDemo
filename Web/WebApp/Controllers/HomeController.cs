@@ -11,11 +11,6 @@ namespace WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        protected readonly List<Usuario> Usuarios = new List<Usuario>()
-        {
-              new Usuario(){ Id=150, Nombre = "Josué Ulises", Apellido = "Mercadillo Flores", Correo = "jmercadillo@cgclatam.com", Contrasenia = "abc123." },
-              new Usuario(){ Id=250, Nombre = "Nataly Paola", Apellido = "Domínguez Landaverde", Correo = "metal_uli@hotmail.com", Contrasenia = "mercally05" },
-        };
 
         public ActionResult Index()
         {
@@ -26,28 +21,22 @@ namespace WebApp.Controllers
 
         public int GETUSERID()
         {
-            return ((Usuario)Session["Usuario"]).Id;
+            return ((Usuario)Session["Usuario"]).UsuarioId;
         }
 
         [HttpPost]
         public ActionResult Index(Usuario usuario)
         {
-            if (Usuarios.Where(x => x.Correo == usuario.Correo && x.Contrasenia == usuario.Contrasenia).Count() == 1)
+            if(new UsuariosHelper().Post(usuario))
             {
-                var user = Usuarios.Where(x => x.Correo == usuario.Correo && x.Contrasenia == usuario.Contrasenia).First();
-                Session["Usuario"] = user as Usuario;
+                Session["Usuario"] = usuario;
 
                 NotificationComponent NC = new NotificationComponent();
                 Session["LastUpdated"] = DateTime.Now;
-                NC.RegisterNotification(DateTime.Now, user);
+                NC.RegisterNotification(DateTime.Now, usuario);
 
                 return RedirectToAction("Calculadora");
             }
-
-            if (Usuarios.Where(x => x.Correo == usuario.Correo).Count() < 1)
-                ModelState.AddModelError("Correo", "Verifique su correo.");
-            if (Usuarios.Where(x => x.Contrasenia == usuario.Contrasenia).Count() < 1)
-                ModelState.AddModelError("Contrasenia", "Verifique su contraseña.");
 
             return View();
         }
@@ -74,7 +63,7 @@ namespace WebApp.Controllers
             result = calHelper.EnviarOperar(calculo);
 
             if (result > 0)
-                result = calHelper.GetOperar();
+                result = calHelper.Get();
 
             if (result > 0)
             {
@@ -89,7 +78,7 @@ namespace WebApp.Controllers
             var usuario = Session["Usuario"] as Usuario;
             NotificacionHelper NH = new NotificacionHelper();
 
-            return NH.GetNotificacionsNotRead(usuario.Id);
+            return NH.Get(usuario.UsuarioId);
         }
 
         public JsonResult GetNotifications()
@@ -98,7 +87,7 @@ namespace WebApp.Controllers
             var usuario = Session["Usuario"] as Usuario;
 
             NotificacionHelper NH = new NotificacionHelper();
-            var list = NH.GetNotifications(true, usuario.Id/*notificationRegisterTime*/);
+            var list = NH.GetAll(usuario.UsuarioId);
 
             Session["LastUpdated"] = DateTime.Now;
 

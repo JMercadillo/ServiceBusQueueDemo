@@ -15,7 +15,7 @@ namespace WebApp.Helper
     {
         string Uri = "http://localhost:57607/api/Calculadora";
         
-        public int GetOperar()
+        public int Get()
         {
             try
             {

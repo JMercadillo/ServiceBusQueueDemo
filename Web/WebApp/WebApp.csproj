@@ -173,12 +173,23 @@
     </Compile>
     <Compile Include="Helper\CalculadoraHelper.cs" />
     <Compile Include="Helper\NotificacionHelper.cs" />
+    <Compile Include="Helper\PermisosDenegadosPorRolHelper.cs" />
+    <Compile Include="Helper\PermisosHelper.cs" />
+    <Compile Include="Helper\RegistroNotificacionesHelper.cs" />
+    <Compile Include="Helper\RolesHelper.cs" />
+    <Compile Include="Helper\SuscripcionesHelper.cs" />
+    <Compile Include="Helper\UsuariosHelper.cs" />
     <Compile Include="Models\Calculo.cs" />
-    <Compile Include="Notifications\Notificacion.cs" />
+    <Compile Include="Models\Notificaciones.cs" />
+    <Compile Include="Models\Permisos.cs" />
+    <Compile Include="Models\PermisosDenegadosPorRol.cs" />
+    <Compile Include="Models\RegistroNotificaciones.cs" />
+    <Compile Include="Models\Roles.cs" />
     <Compile Include="Notifications\NotificationHub.cs" />
     <Compile Include="Notifications\NotificationComponent.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\SessionHelper.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

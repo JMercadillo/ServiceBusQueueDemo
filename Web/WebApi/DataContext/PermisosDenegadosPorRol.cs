@@ -12,15 +12,14 @@ namespace WebApi.DataContext
     using System;
     using System.Collections.Generic;
     
-    public partial class Notificaciones
+    public partial class PermisosDenegadosPorRol
     {
-        public int NotificacionId { get; set; }
-        public int UsuarioId { get; set; }
-        public string Titulo { get; set; }
-        public string Cuerpo { get; set; }
-        public Nullable<System.DateTime> AgregadoEn { get; set; }
-        public bool Leido { get; set; }
+        public int PermisoDenegadoPorRolId { get; set; }
+        public int RolId { get; set; }
+        public int PermisoId { get; set; }
+        public System.DateTime CreadoEn { get; set; }
     
-        public virtual Usuarios Usuarios { get; set; }
+        public virtual Permisos Permisos { get; set; }
+        public virtual Roles Roles { get; set; }
     }
 }

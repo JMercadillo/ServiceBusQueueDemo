@@ -12,14 +12,11 @@ namespace WebApi.DataContext
     using System;
     using System.Collections.Generic;
     
-    public partial class Notificaciones
+    public partial class RegistroNotificaciones
     {
-        public int NotificacionId { get; set; }
+        public int RegistroNotificacionId { get; set; }
         public int UsuarioId { get; set; }
-        public string Titulo { get; set; }
-        public string Cuerpo { get; set; }
-        public Nullable<System.DateTime> AgregadoEn { get; set; }
-        public bool Leido { get; set; }
+        public int SuscripcionId { get; set; }
     
         public virtual Usuarios Usuarios { get; set; }
     }

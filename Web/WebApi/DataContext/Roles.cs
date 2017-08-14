@@ -12,25 +12,23 @@ namespace WebApi.DataContext
     using System;
     using System.Collections.Generic;
     
-    public partial class Usuarios
+    public partial class Roles
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Usuarios()
+        public Roles()
         {
-            this.Notificaciones = new HashSet<Notificaciones>();
-            this.RegistroNotificaciones = new HashSet<RegistroNotificaciones>();
+            this.PermisosDenegadosPorRol = new HashSet<PermisosDenegadosPorRol>();
+            this.Usuarios = new HashSet<Usuarios>();
         }
     
-        public int UsuarioId { get; set; }
         public int RolId { get; set; }
         public string Nombre { get; set; }
-        public string Correo { get; set; }
+        public string Descripcion { get; set; }
         public System.DateTime CreadoEn { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Notificaciones> Notificaciones { get; set; }
+        public virtual ICollection<PermisosDenegadosPorRol> PermisosDenegadosPorRol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RegistroNotificaciones> RegistroNotificaciones { get; set; }
-        public virtual Roles Roles { get; set; }
+        public virtual ICollection<Usuarios> Usuarios { get; set; }
     }
 }

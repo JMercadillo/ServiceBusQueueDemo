@@ -5,8 +5,17 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="eb27be088db542fcbfaa7eb506644e1c" Name="Diagram1">
-        <EntityTypeShape EntityType="NotificationsDemoModel.Notificaciones" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="NotificationsDemoModel.Usuarios" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NotificationsDemoModel.Notificaciones" Width="1.5" PointX="5.25" PointY="5.625" />
+        <EntityTypeShape EntityType="NotificationsDemoModel.Permisos" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="NotificationsDemoModel.PermisosDenegadosPorRol" Width="1.5" PointX="3" PointY="3" />
+        <EntityTypeShape EntityType="NotificationsDemoModel.RegistroNotificaciones" Width="1.5" PointX="5.25" PointY="8.75" />
+        <EntityTypeShape EntityType="NotificationsDemoModel.Roles" Width="1.5" PointX="0.75" PointY="4" />
+        <EntityTypeShape EntityType="NotificationsDemoModel.Usuarios" Width="1.5" PointX="3" PointY="6.75" />
+        <AssociationConnector Association="NotificationsDemoModel.ForeignKey_Notificaciones_Usuarios_UsuarioId" />
+        <AssociationConnector Association="NotificationsDemoModel.ForeignKey_PermisosDenegadosPorRol_Permisos_PermisoId" />
+        <AssociationConnector Association="NotificationsDemoModel.ForeignKey_PermisosDenegadosPorRol_Roles_RolId" />
+        <AssociationConnector Association="NotificationsDemoModel.ForeignKey_RegistroNotificaciones_Usuarios_UsuarioId" />
+        <AssociationConnector Association="NotificationsDemoModel.ForeignKey_Usuarios_Roles_RolId" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebApp.Notifications
+namespace WebApp.Models
 {
-    public class Notificacion
+    public class Notificaciones
     {
         public int NotificacionId { get; set; }
-        public int Usuario { get; set; }
+        public int UsuarioId { get; set; }
         public string Titulo { get; set; }
-        public string Subtitulo { get; set; }
         public string Cuerpo { get; set; }
-        public DateTime AgregadoEn { get; set; }
+        public DateTime? AgregadoEn { get; set; }
+        public bool Leido { get; set; }
     }
 }

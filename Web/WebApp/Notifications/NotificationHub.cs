@@ -38,9 +38,9 @@ namespace WebApp.Notifications
         {
             lock (connectedClients)
             {
-                if (connectedClients.ContainsKey(usuario.Id))
+                if (connectedClients.ContainsKey(usuario.UsuarioId))
                 {
-                    var client = connectedClients[usuario.Id]; 
+                    var client = connectedClients[usuario.UsuarioId]; 
                     client.notify("added"); // Indicandole al usuario que tiene una notificación
                 }
             }
