@@ -27,7 +27,7 @@ namespace WebApp.Notifications
             {
 
                 var ConnString = ConfigurationManager.ConnectionStrings["NotificationsConnectionString"].ConnectionString;
-                var query = @"SELECT [NotificacionId], [Usuario], [Titulo], [Cuerpo] FROM [dbo].[Notificaciones]" +
+                var query = @"SELECT [NotificacionId] FROM [dbo].[Notificaciones]" +
                     " WHERE [UsuarioId] = @UsuarioId AND [AgregadoEn] > @AgregadoEn";
 
                 using (SqlConnection con = new SqlConnection(ConnString))

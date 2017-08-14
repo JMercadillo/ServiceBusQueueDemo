@@ -8,9 +8,9 @@ namespace WebApi.Models
 {
     public class RegistroNotificaciones
     {
-        private int RegistroNotificacionId { get; set; }
-        private int UsuarioId { get; set; }
-        private int SuscripcionId { get; set; }
+        public int RegistroNotificacionId { get; set; }
+        public int UsuarioId { get; set; }
+        public int SuscripcionId { get; set; }
 
         public RegistroNotificaciones RetornarContexto(DataContext.RegistroNotificaciones Obj)
         {

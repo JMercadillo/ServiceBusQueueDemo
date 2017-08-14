@@ -29,11 +29,12 @@ namespace WebApp.Controllers
         {
             if(new UsuariosHelper().Post(usuario))
             {
-                Session["Usuario"] = usuario;
+                var user = new UsuariosHelper().Get(usuario);
+                Session["Usuario"] = user;
 
                 NotificationComponent NC = new NotificationComponent();
                 Session["LastUpdated"] = DateTime.Now;
-                NC.RegisterNotification(DateTime.Now, usuario);
+                NC.RegisterNotification(DateTime.Now, user);
 
                 return RedirectToAction("Calculadora");
             }

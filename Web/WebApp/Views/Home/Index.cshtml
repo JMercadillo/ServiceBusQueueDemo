@@ -20,8 +20,8 @@
             @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", @placeholder = "Tu correo electrónico", @required = "required" })
             @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
 
-            @Html.TextBoxFor(m => m.Contrasenia, new { @class = "form-control", @placeholder = "Tu contraseña", @type="password" ,@required = "required" })
-            @Html.ValidationMessageFor(m => m.Contrasenia, "", new { @class = "text-danger" })
+            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", @placeholder = "Tu contraseña", @type="password", @required = "required" })
+            @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
             <br />
             <input type="submit" class="btn btn-primary" value="Iniciar sesión" />
         }
