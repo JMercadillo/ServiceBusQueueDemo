@@ -1,6 +1,5 @@
-﻿@model WebApp.Models.Usuario
-@{
-    ViewBag.Title = "Home Page";
+﻿@{
+    ViewBag.Title = "Principal";
 }
 
 <div class="jumbotron">
@@ -11,19 +10,10 @@
 
 <div class="row">
     <div class="col-md-4">
-        <h4>Inicio de sesión</h4>
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-            @Html.TextBoxFor(m => m.Correo, new { @class = "form-control", @placeholder = "Tu correo electrónico", @required = "required" })
-            @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
-
-            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control", @placeholder = "Tu contraseña", @type="password", @required = "required" })
-            @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
-            <br />
-            <input type="submit" class="btn btn-primary" value="Iniciar sesión" />
-        }
+        <h4>Acceso a módulos</h4>
+        <ul>
+            <li>@Html.ActionLink("Ir a modulo de usuarios", "Index", "Usuario")</li>
+            <li>@Html.ActionLink("Ir a calculadora.", "Index", "Calculadora")</li>
+        </ul>
     </div>
 </div>

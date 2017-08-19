@@ -17,6 +17,9 @@ namespace Seguridad.Common
         public string Correo { get; set; }
         [DataMember]
         public DateTime CreadoEn { get; set; }
+        [IgnoreDataMember]
+        public string Contrasenia { get; set; }
+        [IgnoreDataMember]
         public Roles Rol { get; }
     }
 }

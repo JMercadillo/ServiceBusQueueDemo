@@ -26,6 +26,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Usuarios", "Index", "Usuario")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
@@ -105,7 +106,7 @@
             // verificando si el usuario tiene notificaciones pendientes
             $.ajax({
                 type: 'GET',
-                url: '/Home/GetNotificationsNotRead',
+                url: '/Common/GetNotificationsNotRead',
                 success: function (data) {
                     $('span.count').html(data);
                 },
@@ -146,7 +147,7 @@
                 $('#notiContent').append($('<li>Cargando...</li>'));
                 $.ajax({
                     type: 'GET',
-                    url: '/Home/GetNotifications',
+                    url: '/Common/GetNotifications',
                     success: function (response) {
                         $('#notiContent').empty();
                         if (response.length == 0) {
@@ -183,7 +184,7 @@
             //Registrar clientes en el servidor
             $.ajax({
                 type: 'GET',
-                url: '/Home/GETUSERID',
+                url: '/Common/GetUserId',
                 success: function (ID) {
                     notificationHub.server.registerClient(ID);
                 },

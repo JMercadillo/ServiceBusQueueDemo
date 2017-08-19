@@ -18,7 +18,11 @@ namespace WebApi.Models
         [DataMember]
         public string Correo { get; set; }
         [DataMember]
+        [IgnoreDataMember]
+        public string Contrasenia { get; set; }
         public DateTime CreadoEn { get; set; }
+        [IgnoreDataMember]
+        public Roles Rol { get; }
 
         private Usuario RetornaContexto(DataContext.Usuarios Obj)
         {

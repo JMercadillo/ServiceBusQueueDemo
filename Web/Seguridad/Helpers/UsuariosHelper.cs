@@ -18,7 +18,7 @@ namespace Seguridad.Helpers
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = client.PostAsync(Uri + $"?Correo={usuario.Correo}&Contrasenia={usuario.Nombre}", null).Result;
+                HttpResponseMessage response = client.PostAsync(Uri + $"?Correo={usuario.Correo}&Contrasenia={usuario.Contrasenia}", null).Result;
                 if (response.IsSuccessStatusCode)
                 {
                     var result = response.Content.ReadAsAsync<bool>().Result;
@@ -36,7 +36,7 @@ namespace Seguridad.Helpers
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = client.GetAsync(Uri + $"?Correo={usuario.Correo}&Contrasenia={usuario.Nombre}").Result;
+                HttpResponseMessage response = client.GetAsync(Uri + $"?Correo={usuario.Correo}&Contrasenia={usuario.Contrasenia}").Result;
                 if (response.IsSuccessStatusCode)
                 {
                     var result = response.Content.ReadAsAsync<Usuario>().Result;
