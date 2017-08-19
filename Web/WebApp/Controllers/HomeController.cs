@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Seguridad.Common;
+using Seguridad.Helpers;
+using System;
 using System.Web.Mvc;
 using WebApp.Helper;
 using WebApp.Models;
@@ -30,7 +29,6 @@ namespace WebApp.Controllers
             if(new UsuariosHelper().Post(usuario))
             {
                 var user = new UsuariosHelper().Get(usuario);
-                Session["Usuario"] = user;
 
                 NotificationComponent NC = new NotificationComponent();
                 Session["LastUpdated"] = DateTime.Now;

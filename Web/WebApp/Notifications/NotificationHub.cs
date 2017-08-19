@@ -1,11 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.SignalR;
+using Seguridad.Common;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Microsoft.AspNet.SignalR;
-using WebApp.Models;
-using WebApp.Notifications;
-using Microsoft.AspNet.SignalR.Hubs;
 
 namespace WebApp.Notifications
 {

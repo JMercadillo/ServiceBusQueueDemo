@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Seguridad.Models;
+using System;
 using System.Runtime.Serialization;
-using System.Web;
 
-namespace WebApp.Models
+namespace Seguridad.Common
 {
     [DataContract(Name = "Usuario", Namespace = "ServiceBusDemo")]
     public class Usuario
@@ -19,5 +17,6 @@ namespace WebApp.Models
         public string Correo { get; set; }
         [DataMember]
         public DateTime CreadoEn { get; set; }
+        public Roles Rol { get; }
     }
 }
