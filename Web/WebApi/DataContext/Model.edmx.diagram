@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="NotificationsDemoModel.Permisos" Width="1.5" PointX="0.75" PointY="1.125" />
         <EntityTypeShape EntityType="NotificationsDemoModel.PermisosDenegadosPorRol" Width="1.5" PointX="3" PointY="3" />
         <EntityTypeShape EntityType="NotificationsDemoModel.RegistroNotificaciones" Width="1.5" PointX="5.25" PointY="8.75" />
-        <EntityTypeShape EntityType="NotificationsDemoModel.Roles" Width="1.5" PointX="0.75" PointY="4" />
+        <EntityTypeShape EntityType="NotificationsDemoModel.Roles" Width="2.125" PointX="0.75" PointY="4" />
         <EntityTypeShape EntityType="NotificationsDemoModel.Usuarios" Width="1.5" PointX="3" PointY="6.75" />
         <AssociationConnector Association="NotificationsDemoModel.ForeignKey_Notificaciones_Usuarios_UsuarioId" />
         <AssociationConnector Association="NotificationsDemoModel.ForeignKey_PermisosDenegadosPorRol_Permisos_PermisoId" />

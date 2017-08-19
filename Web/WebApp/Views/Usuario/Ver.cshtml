@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Seguridad.Models.Usuario>
+@using Seguridad.Common;
+@{
+    ViewBag.Title = "Ver";
+}
+
+<h2>Lista de Usuarios</h2>
+
+@if (FrontUser.TienePermiso(RolesPermisos.Usuario_Crear_Usuario))
+{
+    <p>
+        @Html.ActionLink("Crear nuevo", "Crear")
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            Rol
+        </th>
+        <th>
+            Nombre
+        </th>
+        <th>
+            Correo
+        </th>
+        <th>
+            Contraseña
+        </th>
+        <th>
+            Creado en
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rol.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Correo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contrasenia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreadoEn)
+            </td>
+            <td>
+                @if (FrontUser.TienePermiso(RolesPermisos.Usuario_Modificar_Usuario))
+                {
+                    <text>
+                        @Html.ActionLink("Editar", "Editar", new { id = item.UsuarioId }) |
+                    </text>
+                }
+
+                @if (FrontUser.TienePermiso(RolesPermisos.Usuario_Consultar_Usuario))
+                {
+                    <text>
+                        @Html.ActionLink("Detalles", "Detalles", new { id = item.UsuarioId }) |
+                    </text>
+                }
+
+                @if (FrontUser.TienePermiso(RolesPermisos.Usuario_Eliminar_Usuario))
+                {
+                    <text>
+                        @Html.ActionLink("Eliminar", "Eliminar", new { id = item.UsuarioId })
+                    </text>
+                }
+
+            </td>
+        </tr>
+    }
+
+</table>

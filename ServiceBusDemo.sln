@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCF", "Web\WCF\WCF.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguridad", "Web\Seguridad\Seguridad.csproj", "{672C3307-D445-4226-8406-B08AA5394386}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{1BDC2782-43C6-4F75-9D45-30A79FD36958}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{DD847633-C4AD-4FEA-9DED-F673615EC862}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +53,10 @@ Global
 		{672C3307-D445-4226-8406-B08AA5394386}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{672C3307-D445-4226-8406-B08AA5394386}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{672C3307-D445-4226-8406-B08AA5394386}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD847633-C4AD-4FEA-9DED-F673615EC862}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD847633-C4AD-4FEA-9DED-F673615EC862}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD847633-C4AD-4FEA-9DED-F673615EC862}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD847633-C4AD-4FEA-9DED-F673615EC862}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +68,7 @@ Global
 		{11D3675C-1494-4C4C-8804-DCCE3F21C0D5} = {A1943EDF-8064-45D2-926E-88988351720E}
 		{BEE7E693-7B43-4C35-8504-37D03AD0CE91} = {A1943EDF-8064-45D2-926E-88988351720E}
 		{672C3307-D445-4226-8406-B08AA5394386} = {A1943EDF-8064-45D2-926E-88988351720E}
+		{DD847633-C4AD-4FEA-9DED-F673615EC862} = {1BDC2782-43C6-4F75-9D45-30A79FD36958}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {59D89134-5ADE-4544-B6D7-AF308C953B54}

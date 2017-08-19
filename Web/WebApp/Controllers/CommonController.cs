@@ -1,9 +1,11 @@
 ﻿using Seguridad.Common;
 using Seguridad.Helpers;
+using Seguridad.Models;
 using System;
 using System.Web.Mvc;
 using WebApp.Helper;
 using WebApp.Notifications;
+using WebApp.Security;
 using WebApp.ViewModels;
 
 namespace WebApp.Controllers
@@ -11,12 +13,23 @@ namespace WebApp.Controllers
     public class CommonController : Controller
     {
         // GET: Common
+        [NoAuthenticate]
         public ActionResult Login()
         {
             return View();
         }
 
+        // GET: Common
+        [Authenticate]
+        public ActionResult Logout()
+        {
+            SessionHelper.EndSession();
+
+            return RedirectToAction("Login", "Common", null);
+        }
+
         [HttpPost]
+        [NoAuthenticate]
         public ActionResult Login(UsuarioViewModel _usuario)
         {
             var usuario = new Usuario() { Correo = _usuario.Correo, Contrasenia = _usuario.Contrasenia };
@@ -37,7 +50,7 @@ namespace WebApp.Controllers
             return View();
         }
 
-
+        [Authenticate]
         public int GetNotificationsNotRead()
         {
             var usuario = SessionHelper.CurrentUser;
@@ -46,6 +59,7 @@ namespace WebApp.Controllers
             return NH.Get(usuario.UsuarioId);
         }
 
+        [Authenticate]
         public JsonResult GetNotifications()
         {
             var usuario = SessionHelper.CurrentUser;
@@ -56,6 +70,7 @@ namespace WebApp.Controllers
             return new JsonResult { Data = list, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
+        [Authenticate]
         public int GetUserId()
         {
             return SessionHelper.CurrentUser.UsuarioId;

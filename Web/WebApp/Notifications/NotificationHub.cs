@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNet.SignalR;
-using Seguridad.Common;
+using Seguridad.Models;
 using System.Collections.Generic;
 
 namespace WebApp.Notifications

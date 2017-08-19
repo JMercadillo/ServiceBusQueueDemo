@@ -58,7 +58,6 @@
     <Compile Include="Common\FrontUser.cs" />
     <Compile Include="Common\RolesPermisos.cs" />
     <Compile Include="Common\SessionHelper.cs" />
-    <Compile Include="Common\Usuario.cs" />
     <Compile Include="Helpers\PermisosDenegadosPorRolHelper.cs" />
     <Compile Include="Helpers\PermisosHelper.cs" />
     <Compile Include="Helpers\RolesHelper.cs" />
@@ -66,6 +65,7 @@
     <Compile Include="Models\Permisos.cs" />
     <Compile Include="Models\PermisosDenegadosPorRol.cs" />
     <Compile Include="Models\Roles.cs" />
+    <Compile Include="Models\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

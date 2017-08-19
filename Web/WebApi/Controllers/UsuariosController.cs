@@ -23,6 +23,18 @@ namespace WebApi.Controllers
             return new Usuario().ObtenerUsuario(user);
         }
 
+        // GET: api/Usuarios/5
+        public Usuario Get(int id)
+        {
+            return new Usuario().ObtenerUsuario(id);
+        }
+
+        // GET: api/Usuarios/
+        public List<Usuario> Get()
+        {
+            return new Usuario().ObtenerTodosUsuarios();
+        }
+
         // POST: api/Usuarios
         public bool Post(string Correo, string Contrasenia)
         {

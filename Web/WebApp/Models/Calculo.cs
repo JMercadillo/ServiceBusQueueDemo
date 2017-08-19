@@ -1,4 +1,4 @@
-﻿using Seguridad.Common;
+﻿using Seguridad.Models;
 using System;
 using System.Runtime.Serialization;
 

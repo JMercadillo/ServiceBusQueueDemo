@@ -1,4 +1,6 @@
-﻿@{
+﻿
+@using Seguridad.Common;
+@{
     ViewBag.Title = "Usuarios";
 }
 
@@ -12,10 +14,22 @@
     <div class="col-md-4">
         <h4>En esta sección usted puede:</h4>
         <ul>
-            <li>@Html.ActionLink("Ir a ver lista de usuarios.", "Ver", "Usuario")</li>
-            <li>@Html.ActionLink("Ir a crear un usuario nuevo.", "Crear", "Usuario")</li>
-            <li>@Html.ActionLink("Ir a modificar un usuario existente.", "Editar", "Usuario")</li>
-            <li>@Html.ActionLink("Ir a eliminar un usuario existente.", "Eliminar", "Usuario")</li>
+            @if (FrontUser.TienePermiso(RolesPermisos.Usuario_Consultar_Usuario))
+            {
+                <li>@Html.ActionLink("Ir a ver lista de usuarios.", "Ver", "Usuario")</li>
+            }
+            @if (FrontUser.TienePermiso(RolesPermisos.Usuario_Crear_Usuario))
+            {
+                <li>@Html.ActionLink("Ir a crear un usuario nuevo.", "Crear", "Usuario")</li>
+            }
+            @if (FrontUser.TienePermiso(RolesPermisos.Usuario_Modificar_Usuario))
+            {
+                <li>@Html.ActionLink("Ir a modificar un usuario existente.", "Editar", "Usuario")</li>
+            }
+            @if (FrontUser.TienePermiso(RolesPermisos.Usuario_Eliminar_Usuario))
+            {
+                <li>@Html.ActionLink("Ir a eliminar un usuario existente.", "Eliminar", "Usuario")</li>
+            }
         </ul>
 
     </div>

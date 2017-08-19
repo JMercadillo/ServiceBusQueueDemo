@@ -7,10 +7,11 @@ namespace WebApi.Models
 {
     public class Roles
     {
-        private int RolId { get; set; }
-        private string Nombre { get; set; }
-        private string Descripcion { get; set; }
-        private System.DateTime CreadoEn { get; set; }
+        public int RolId { get; set; }
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public System.DateTime CreadoEn { get; set; }
+        public List<PermisosDenegadosPorRol> PermisosDenegadosPorRol { get; set; }
 
         private Roles RetornarContexto(DataContext.Roles Obj)
         {

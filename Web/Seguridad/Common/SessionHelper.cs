@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Seguridad.Models;
+using System;
 using System.Web;
 
 namespace Seguridad.Common
@@ -47,6 +44,7 @@ namespace Seguridad.Common
         /// <param name="usuario">Usuario registrado</param>
         public static void EndSession()
         {
+            HttpContext.Current.Session.Abandon();
             HttpContext.Current.Session[SessionUser] = null;
         }
 
@@ -84,6 +82,14 @@ namespace Seguridad.Common
                 }
                 return usuario;
             }
+        }
+
+        /// <summary>
+        /// Obtiene el usuario de la sesión actual
+        /// </summary>
+        public static bool ExistUserInSession()
+        {
+            return HttpContext.Current.Session[SessionUser] != null;
         }
     }
 }

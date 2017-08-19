@@ -1,14 +1,12 @@
 ﻿using Seguridad.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using WebApp.Helper;
 using WebApp.Models;
+using WebApp.Security;
 
 namespace WebApp.Controllers
 {
+    [Authenticate]
     public class CalculadoraController : Controller
     {
         // GET: Calculadora
