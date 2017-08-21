@@ -1,4 +1,6 @@
-﻿create database [NotificationsDemo];
+﻿
+-- Base de datos para pruebas de service bus, notificaciones y seguridad
+create database [NotificationsDemo];
 go
 
 use [NotificationsDemo];
