@@ -31,5 +31,6 @@ namespace WebApi.DataContext
         public virtual DbSet<RegistroNotificaciones> RegistroNotificaciones { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
+        public virtual DbSet<BitacoraIngresos> BitacoraIngresos { get; set; }
     }
 }

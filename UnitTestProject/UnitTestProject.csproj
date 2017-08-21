@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seguridad\Common\FrontUser_Test.cs" />
     <Compile Include="Seguridad\Common\Usuario_Test.cs" />
+    <Compile Include="Seguridad\Helpers\BitacoraAccesoHelper_Test.cs" />
     <Compile Include="Web\WebApi\Controllers\UsuariosController_Test.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,7 +108,6 @@
   <ItemGroup>
     <Folder Include="Console\ConsoleApp\" />
     <Folder Include="Console\ServiceBusMessagingDemo\" />
-    <Folder Include="Seguridad\Helpers\" />
     <Folder Include="Seguridad\Models\" />
     <Folder Include="Web\WebApp\Controllers\" />
   </ItemGroup>

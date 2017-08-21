@@ -176,14 +176,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\CalculadoraHelper.cs" />
-    <Compile Include="Helper\NotificacionHelper.cs" />
-    <Compile Include="Helper\RegistroNotificacionesHelper.cs" />
-    <Compile Include="Helper\SuscripcionesHelper.cs" />
     <Compile Include="Models\Calculo.cs" />
     <Compile Include="Models\Notificaciones.cs" />
-    <Compile Include="Models\RegistroNotificaciones.cs" />
-    <Compile Include="Notifications\NotificationHub.cs" />
-    <Compile Include="Notifications\NotificationComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AuthenticateAttribute.cs" />
     <Compile Include="Security\NoAuthenticateAttribute.cs" />

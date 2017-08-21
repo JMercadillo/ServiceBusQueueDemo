@@ -1,10 +1,10 @@
 ﻿using Seguridad.Common;
 using Seguridad.Helpers;
 using Seguridad.Models;
+using Seguridad.Notifications;
 using System;
 using System.Web.Mvc;
 using WebApp.Helper;
-using WebApp.Notifications;
 using WebApp.Security;
 using WebApp.ViewModels;
 
@@ -33,15 +33,10 @@ namespace WebApp.Controllers
         public ActionResult Login(UsuarioViewModel _usuario)
         {
             var usuario = new Usuario() { Correo = _usuario.Correo, Contrasenia = _usuario.Contrasenia };
+
             if (new UsuariosHelper().Post(usuario))
             {
-                var user = new UsuariosHelper().Get(usuario);
-
-                SessionHelper.StartSession(user);
-
-                NotificationComponent NC = new NotificationComponent();
-                Session["LastUpdated"] = DateTime.Now;
-                NC.RegisterNotification(DateTime.Now, user);
+                SessionHelper.StartSession(new UsuariosHelper().Get(usuario));
 
                 return RedirectToAction("Index", "Home", null);
             }
@@ -53,21 +48,16 @@ namespace WebApp.Controllers
         [Authenticate]
         public int GetNotificationsNotRead()
         {
-            var usuario = SessionHelper.CurrentUser;
-            NotificacionHelper NH = new NotificacionHelper();
-
-            return NH.Get(usuario.UsuarioId);
+            return new NotificationHelper()
+                .Get(SessionHelper.CurrentUser.UsuarioId);
         }
 
         [Authenticate]
         public JsonResult GetNotifications()
         {
-            var usuario = SessionHelper.CurrentUser;
-
-            NotificacionHelper NH = new NotificacionHelper();
-            var list = NH.GetAll(usuario.UsuarioId);
-
-            return new JsonResult { Data = list, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            return new JsonResult { Data = new NotificationHelper()
+                .GetAll(SessionHelper.CurrentUser.UsuarioId),
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [Authenticate]

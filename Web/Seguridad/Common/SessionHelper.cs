@@ -1,4 +1,6 @@
-﻿using Seguridad.Models;
+﻿using Seguridad.Helpers;
+using Seguridad.Models;
+using Seguridad.Notifications;
 using System;
 using System.Web;
 
@@ -24,18 +26,25 @@ namespace Seguridad.Common
         /// <param name="usuario">Usuario registrado</param>
         public static void StartSession(Usuario usuario)
         {
-            HttpContext.Current.Session.Timeout = 99999;
-            HttpContext.Current.Session[SessionUser] = new SessionHelper() { Usuario = usuario, HoraIngreso = DateTime.Now };
-        }
+            var user = new Usuario().Obtener(usuario.UsuarioId);
+            new BitacoraAccesoHelper().Post(
+                new Bitacora()
+                {
+                    Accion = "E",
+                    BitacoraIngresosId = 0,
+                    Departamento = user.Rol.Nombre,
+                    Fecha = DateTime.Now,
+                    NombreCompleto = user.Nombre,
+                    NombreUsuario = user.Nombre,
+                    UsuarioId = user.UsuarioId.ToString(),
+                    Terminal = System.Security.Principal.WindowsIdentity.GetCurrent().Name
+                }
+                );
 
-        /// <summary>
-        /// Inicia una sesión por defecto
-        /// </summary>
-        /// <param name="usuario">Usuario registrado</param>
-        public static void StartSession()
-        {
-            HttpContext.Current.Session.Timeout = 99999;
-            HttpContext.Current.Session[SessionUser] = new SessionHelper();
+            new NotificationComponent().RegisterNotification(DateTime.Now, user);
+
+            HttpContext.Current.Session.Timeout = 480;
+            HttpContext.Current.Session[SessionUser] = new SessionHelper() { Usuario = usuario, HoraIngreso = DateTime.Now };
         }
 
         /// <summary>
@@ -44,6 +53,24 @@ namespace Seguridad.Common
         /// <param name="usuario">Usuario registrado</param>
         public static void EndSession()
         {
+            var _user = HttpContext.Current.Session[SessionUser] as SessionHelper;
+            var user = new Usuario().Obtener(_user.Usuario.UsuarioId);
+            new BitacoraAccesoHelper().Post(
+                new Bitacora()
+                {
+                    Accion = "S",
+                    BitacoraIngresosId = 0,
+                    Departamento = user.Rol.Nombre,
+                    Fecha = DateTime.Now,
+                    NombreCompleto = user.Nombre,
+                    NombreUsuario = user.Nombre,
+                    UsuarioId = user.UsuarioId.ToString(),
+                    Terminal = System.Security.Principal.WindowsIdentity.GetCurrent().Name
+                }
+                );
+
+            new NotificationComponent().RemoveNotification(user);
+
             HttpContext.Current.Session.Abandon();
             HttpContext.Current.Session[SessionUser] = null;
         }

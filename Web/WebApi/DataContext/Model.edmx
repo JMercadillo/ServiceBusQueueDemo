@@ -5,6 +5,19 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="NotificationsDemoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BitacoraIngresos">
+          <Key>
+            <PropertyRef Name="BitacoraIngresosId" />
+          </Key>
+          <Property Name="BitacoraIngresosId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UsuarioId" Type="nvarchar" MaxLength="36" />
+          <Property Name="NombreUsuario" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Accion" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="Departamento" Type="nvarchar" MaxLength="50" />
+          <Property Name="NombreCompleto" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Terminal" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Notificaciones">
           <Key>
             <PropertyRef Name="NotificacionId" />
@@ -111,6 +124,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="NotificationsDemoModelStoreContainer">
+          <EntitySet Name="BitacoraIngresos" EntityType="Self.BitacoraIngresos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notificaciones" EntityType="Self.Notificaciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Permisos" EntityType="Self.Permisos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PermisosDenegadosPorRol" EntityType="Self.PermisosDenegadosPorRol" Schema="dbo" store:Type="Tables" />
@@ -165,6 +179,7 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Usuarios" EntitySet="Usuarios" />
           </AssociationSet>
+          <EntitySet Name="BitacoraIngresos" EntityType="NotificationsDemoModel.BitacoraIngresos" />
         </EntityContainer>
         <EntityType Name="Notificaciones">
           <Key>
@@ -293,6 +308,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BitacoraIngresos">
+          <Key>
+            <PropertyRef Name="BitacoraIngresosId" />
+          </Key>
+          <Property Name="BitacoraIngresosId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UsuarioId" Type="String" MaxLength="36" FixedLength="false" Unicode="true" />
+          <Property Name="NombreUsuario" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Accion" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="Departamento" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NombreCompleto" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Terminal" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -359,6 +387,20 @@
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="RolId" ColumnName="RolId" />
                 <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BitacoraIngresos">
+            <EntityTypeMapping TypeName="NotificationsDemoModel.BitacoraIngresos">
+              <MappingFragment StoreEntitySet="BitacoraIngresos">
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Terminal" ColumnName="Terminal" />
+                <ScalarProperty Name="NombreCompleto" ColumnName="NombreCompleto" />
+                <ScalarProperty Name="Departamento" ColumnName="Departamento" />
+                <ScalarProperty Name="Accion" ColumnName="Accion" />
+                <ScalarProperty Name="NombreUsuario" ColumnName="NombreUsuario" />
+                <ScalarProperty Name="UsuarioId" ColumnName="UsuarioId" />
+                <ScalarProperty Name="BitacoraIngresosId" ColumnName="BitacoraIngresosId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

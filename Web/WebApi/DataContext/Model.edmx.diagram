@@ -16,6 +16,7 @@
         <AssociationConnector Association="NotificationsDemoModel.ForeignKey_PermisosDenegadosPorRol_Roles_RolId" />
         <AssociationConnector Association="NotificationsDemoModel.ForeignKey_RegistroNotificaciones_Usuarios_UsuarioId" />
         <AssociationConnector Association="NotificationsDemoModel.ForeignKey_Usuarios_Roles_RolId" />
+        <EntityTypeShape EntityType="NotificationsDemoModel.BitacoraIngresos" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

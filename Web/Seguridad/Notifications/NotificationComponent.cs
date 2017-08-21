@@ -1,11 +1,14 @@
-﻿using Seguridad.Models;
+﻿using Seguridad.Helpers;
+using Seguridad.Models;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using WebApp.Helper;
-using WebApp.Models;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WebApp.Notifications
+namespace Seguridad.Notifications
 {
     public class NotificationComponent
     {
@@ -43,7 +46,7 @@ namespace WebApp.Notifications
 
                     }
                 }
-                var SH = new SuscripcionesHelper();
+                var SH = new SubscriptionsHelper();
                 var Subs = SH.Get(); // Obtiene la suscripción actual de dependencia con la base de datos
                 var RH = new RegistroNotificacionesHelper();
                 RH.Post( // Agrega el registro para controlar las suscripciones
@@ -67,7 +70,7 @@ namespace WebApp.Notifications
             var RegistroNoti = RH.Get(Usuario.UsuarioId);
             if (RegistroNoti != null)
             {
-                var SH = new SuscripcionesHelper();
+                var SH = new SubscriptionsHelper();
                 SH.Delete(RegistroNoti.SuscripcionId); // Mata la suscripción de dependecia con la base de datos
                 RH.Delete(Usuario.UsuarioId);
             }
@@ -80,14 +83,13 @@ namespace WebApp.Notifications
                 SqlDependency sqlDep = sender as SqlDependency;
                 sqlDep.OnChange -= SqlDep_OnChange;
 
-                var RH = new RegistroNotificacionesHelper(); // Eliminando el registro
-                RH.Delete(USER.UsuarioId);
+                // Eliminando el registro de dependecia
+                new RegistroNotificacionesHelper().Delete(USER.UsuarioId);
 
                 if (USER != null)
                 {
                     //notificando al cliente
-                    NotificationHub NH = new NotificationHub();
-                    NH.AddNotification(USER);
+                    new NotificationHub().AddNotification(USER);
 
                     RegisterNotification(DateTime.Now, USER);
                 }

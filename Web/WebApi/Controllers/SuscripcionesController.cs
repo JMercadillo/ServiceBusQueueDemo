@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+﻿using System.Web.Http;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -16,9 +9,9 @@ namespace WebApi.Controllers
         {
             return new Suscripciones().ConsultarSuscripcion();
         }
-        public bool Delete(int SubscripcionId)
+        public bool Delete(int id)
         {
-            return new Suscripciones().EliminarSuscripcion(SubscripcionId);
+            return new Suscripciones().EliminarSuscripcion(id);
         }
     }
 }

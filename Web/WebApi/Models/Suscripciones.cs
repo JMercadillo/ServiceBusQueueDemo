@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 
 namespace WebApi.Models
 {
@@ -55,6 +52,10 @@ namespace WebApi.Models
                 catch (Exception ex)
                 {
                     result = 0;
+                }
+                finally
+                {
+                    con.Close();
                 }
 
                 return result > 0;

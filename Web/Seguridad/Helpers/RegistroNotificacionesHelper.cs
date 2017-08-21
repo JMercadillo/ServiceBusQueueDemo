@@ -1,35 +1,19 @@
-﻿using System;
+﻿using Seguridad.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using WebApp.Models;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WebApp.Helper
+namespace Seguridad.Helpers
 {
-    public class NotificacionHelper
+    public class RegistroNotificacionesHelper
     {
+        String Uri = "http://localhost:57607/api/RegistroNotificaciones/";
 
-        String Uri = "http://localhost:57607/api/Notificaciones/";
-
-        public List<Notificaciones> GetAll(int UsuarioId)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = client.GetAsync(Uri + $"GetAll/{UsuarioId}").Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    var result = response.Content.ReadAsAsync<List<Notificaciones>>().Result;
-                    return result;
-                }
-                else
-                {
-                    return new List<Notificaciones>();
-                }
-            }
-        }
-
-        public int Get(int UsuarioId)
+        public RegistroNotificaciones Get(int UsuarioId)
         {
             using (HttpClient client = new HttpClient())
             {
@@ -37,22 +21,22 @@ namespace WebApp.Helper
                 HttpResponseMessage response = client.GetAsync(Uri + UsuarioId).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = response.Content.ReadAsAsync<int>().Result;
+                    var result = response.Content.ReadAsAsync<RegistroNotificaciones>().Result;
                     return result;
                 }
                 else
                 {
-                    return 0;
+                    return new RegistroNotificaciones();
                 }
             }
         }
 
-        public bool Post(Notificaciones notificacion)
+        public bool Post(RegistroNotificaciones registro)
         {
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = client.PostAsJsonAsync(Uri, notificacion).Result;
+                HttpResponseMessage response = client.PostAsJsonAsync(Uri, registro).Result;
                 if (response.IsSuccessStatusCode)
                 {
                     var result = response.Content.ReadAsAsync<bool>().Result;
