@@ -18,7 +18,7 @@ namespace WebApp.Controllers
             return View();
         }
 
-        public ActionResult Resultado(Calculo calculo)
+        public ActionResult ResultadoSB(Calculo calculo)
         {
             int result = 0;
 
@@ -40,6 +40,20 @@ namespace WebApp.Controllers
             }
             else
                 return View();
+        }
+
+        public ActionResult Resultado(Calculo calculo)
+        {
+            var calHelper = new CalculadoraHelper();
+
+            var user = SessionHelper.CurrentUser;
+            ViewBag.Message = $"{user.Nombre} tu estará listo pronto.";
+
+            calculo.Usuario = user;
+
+            var result = calHelper.Post(calculo);
+
+            return View(result);
         }
     }
 }

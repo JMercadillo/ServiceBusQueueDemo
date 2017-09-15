@@ -80,14 +80,15 @@ namespace WebApi.Controllers
             }
         }
 
-        private class Resultado
+        public class Resultado
         {
             public string nombreOperador { get; set; }
             public string operador { get; set; }
             public int resultado { get; set; }
         }
 
-        private Resultado Calcular(Calculo calculo)
+        [HttpPost]
+        public Resultado Calcular(Calculo calculo)
         {
             Resultado result;
 

@@ -32,6 +32,27 @@ namespace WebApp.Helper
             }
         }
 
+        public Resultado Post(Calculo calculo)
+        {
+            try
+            {
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.Timeout = TimeSpan.FromSeconds(60);
+                HttpResponseMessage response = client.PostAsJsonAsync(Uri, calculo).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = response.Content.ReadAsAsync<Resultado>().Result;
+                    return result;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         /*
          * Enviando mensajes a la cola
          */
