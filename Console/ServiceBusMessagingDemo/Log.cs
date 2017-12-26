@@ -12,14 +12,21 @@ namespace ServiceBusMessagingDemo
 {
     public class Log
     {
-        //private static string sbconnectionstring = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"].ToString();
+        public static string sbconnectionstring = ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"].ToString();
         //private static string QueueName = "colademo";
-        //private static QueueClient queueClient;
+        public static QueueClient queueClient;
         public static QueueClient CreateLog()
         {
-            string sbconnectionstring = CreateConnectionString(9355, 9354, "servermercally.eastus.cloudapp.azure.com", "", "5GiPut9Di6ZdGA+aQjHzTHho+E03bf8291on0Y0484Q=", "RootManageSharedAccessKey").ToString();
-
-            var queueClient = QueueClient.CreateFromConnectionString(sbconnectionstring, "colademo", ReceiveMode.ReceiveAndDelete);
+            /*string*/ sbconnectionstring = CreateConnectionString(9355, 9354, "server", "", "5GiPut9Di6ZdGA+aQjHzTHho+E03bf8291on0Y0484Q=", "RootManageSharedAccessKey").ToString();
+            try
+            {
+                queueClient = QueueClient.CreateFromConnectionString(sbconnectionstring, "colademo", ReceiveMode.ReceiveAndDelete);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al conectarse con la cola.", ex);
+            }
+            
 
             //Console.WriteLine($"{ DateTime.Now } > QueueClient creado exitosamente.");
 

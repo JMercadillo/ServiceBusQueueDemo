@@ -12,8 +12,6 @@ namespace ServiceBusMessagingDemo
     public class SendMessage
     {
         // Contexto de datos a enviar
-        private const string MessageType = "MessageType";
-        private const string AssemblyName = "AssemblyName";
         private QueueClient queueClient;
 
         public async Task Main(QueueClient _queueClient)
@@ -24,7 +22,7 @@ namespace ServiceBusMessagingDemo
             var strinsg = Console.ReadLine();
             var numMessagesToSend = 0;
             if (int.TryParse(strinsg, out numMessagesToSend))
-            {
+            { 
                 // Enviando los mensajes
                 await SendMessagesToQueue(numMessagesToSend);
                 // Cerrando conexion
@@ -51,18 +49,12 @@ namespace ServiceBusMessagingDemo
                         Name = $"Mensaje {i}"
                     };
 
-                    // Create BrokeredMessage object
-                    using (var brokeredMessage = new BrokeredMessage(testServiceBusMessage,
-                                                                     new DataContractSerializer(typeof(TestMessage)))
-                    {
-                        Properties = {{ MessageType, typeof(TestMessage).FullName},
-                                  { AssemblyName, typeof(TestMessage).AssemblyQualifiedName}}
-                    })
-                    {
-                        Console.WriteLine($"{ DateTime.Now } > Enviando mensaje { i }");
-                        // Enviando mensaje
-                        await queueClient.SendAsync(brokeredMessage);
-                    }
+                    BrokeredMessage brokeredMessage = new BrokeredMessage(testServiceBusMessage);
+
+                    Console.WriteLine($"{ DateTime.Now } > Enviando mensaje { i }");
+                    // Enviando mensaje
+                    await queueClient.SendAsync(brokeredMessage);
+
                 }
                 catch (Exception exception)
                 {
@@ -70,8 +62,6 @@ namespace ServiceBusMessagingDemo
                     errorSend++;
                 }
             }
-
-            await Task.Delay(10);
 
             Console.WriteLine($"{DateTime.Now} > { numMessagesToSend - errorSend } mensajes enviados.");
         }
