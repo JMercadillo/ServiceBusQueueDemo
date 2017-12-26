@@ -36,8 +36,6 @@ namespace ServiceBusMessagingDemo
             }
         }
 
-       
-
         public async Task SendMessagesToQueue(int numMessagesToSend)
         {
             var errorSend = 0;
